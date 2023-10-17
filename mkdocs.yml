@@ -1,0 +1,6 @@
+site_name: AIGC
+site_url: http://docs.workbygpt.com/
+nav:
+  - Home: index.md
+  - About: about.md
+theme: readthedocs
