@@ -1,4 +1,4 @@
-name: ci
+name: build-push-action
 
 on:
   push:
