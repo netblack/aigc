@@ -13,7 +13,7 @@ jobs:
       - name: GitOps Repo - Checkout
         uses: actions/checkout@v4
         env: 
-          GITOPS_REPO_URL: netblack/aigc-monorepo
+          GITOPS_REPO_URL: netblack/aigc-monorepo.git
         with:
           repository: ${{ env.GITOPS_REPO_URL }}
           ref: ${{ env.GITOPS_REPO_BRANCH }}
