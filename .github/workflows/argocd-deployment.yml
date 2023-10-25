@@ -15,8 +15,8 @@ jobs:
         env: 
           GITOPS_REPO_URL: https://github.com/netblack/aigc-monorepo.git
         with:
-          repository: ${{ GITOPS_REPO_URL }}
-          ref: ${{ GITOPS_REPO_BRANCH }}
+          repository: ${{ env.GITOPS_REPO_URL }}
+          ref: ${{ env.GITOPS_REPO_BRANCH }}
           fetch-depth: 0
       - name: GitOps Repo - Patch and push
         env: 
