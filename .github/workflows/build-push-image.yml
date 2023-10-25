@@ -1,4 +1,4 @@
-name: build-push-action
+name: build-push-image
 
 on:
   push:
