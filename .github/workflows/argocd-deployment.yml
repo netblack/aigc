@@ -18,7 +18,7 @@ jobs:
           repository: ${{ env.GITOPS_REPO_URL }}
           ref: ${{ env.GITOPS_REPO_BRANCH }}
           fetch-depth: 0
-          token: ${{ secrets.PTA }}
+          token: ${{ secrets.PAT}}
       - name: GitOps Repo - Patch and push
         env: 
           GITOPS_REPO_VALUES: values.yaml
