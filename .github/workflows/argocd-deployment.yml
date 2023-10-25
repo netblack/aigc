@@ -7,18 +7,24 @@ on:
 jobs:
   modify-repo:
     runs-on: ubuntu-latest
+    env: 
+      GITOPS_REPO_BRANCH: main
     steps:
       - name: GitOps Repo - Checkout
         uses: actions/checkout@v4
+        env: 
+          GITOPS_REPO_URL: https://github.com/netblack/aigc-monorepo.git
         with:
-          repository: ${{ env.GITOPS_REPO_URL }}
-          ref: ${{ env.GITOPS_REPO_BRANCH }}
+          repository: ${{ GITOPS_REPO_URL }}
+          ref: ${{ GITOPS_REPO_BRANCH }}
           fetch-depth: 0
-          path: gitops
       - name: GitOps Repo - Patch and push
+        env: 
+          GITOPS_REPO_VALUES: values.yaml
+          TAG: ${{ github.event.release.tag_name }}
         run: |
-          git -C gitops config user.name "GitHub Actions"
-          git -C gitops config user.email "actions@github.com"
-          sed -i 's|tag:.*|tag: '${{ github.event.release.tag_name }}'|' gitops/charts/aigc-docs/${{ env.GITOPS_REPO_VALUES }}
-          git -C gitops commit -am "Update APP_VERSION: to '${{ github.event.release.tag_name }}' in ${{ env.GITOPS_REPO_VALUES }}"
-          git -C gitops push origin ${{ env.GITOPS_REPO_BRANCH }}
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          sed -i 's|tag:.*|tag: '$TAG'|' charts/aigc-docs/$GITOPS_REPO_VALUES
+          git commit -am "Update tag to '$TAG' in $GITOPS_REPO_VALUES"
+          git push origin $GITOPS_REPO_BRANCH
