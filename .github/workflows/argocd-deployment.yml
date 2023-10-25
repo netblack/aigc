@@ -13,11 +13,12 @@ jobs:
       - name: GitOps Repo - Checkout
         uses: actions/checkout@v4
         env: 
-          GITOPS_REPO_URL: netblack/aigc-monorepo.git
+          GITOPS_REPO_URL: netblack/aigc-monorepo
         with:
           repository: ${{ env.GITOPS_REPO_URL }}
           ref: ${{ env.GITOPS_REPO_BRANCH }}
           fetch-depth: 0
+          token: ${{ secrets.PAT}}
       - name: GitOps Repo - Patch and push
         env: 
           GITOPS_REPO_VALUES: values.yaml
