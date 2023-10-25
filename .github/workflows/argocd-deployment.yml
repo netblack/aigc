@@ -1,0 +1,24 @@
+name: argocd-deployment
+
+on:
+  release:
+    types:
+      - published
+jobs:
+  modify-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitOps Repo - Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.GITOPS_REPO_URL }}
+          ref: ${{ env.GITOPS_REPO_BRANCH }}
+          fetch-depth: 0
+          path: gitops
+      - name: GitOps Repo - Patch and push
+        run: |
+          git -C gitops config user.name "GitHub Actions"
+          git -C gitops config user.email "actions@github.com"
+          sed -i 's|tag:.*|tag: '${{ github.event.release.tag_name }}'|' gitops/charts/aigc-docs/${{ env.GITOPS_REPO_VALUES }}
+          git -C gitops commit -am "Update APP_VERSION: to '${{ github.event.release.tag_name }}' in ${{ env.GITOPS_REPO_VALUES }}"
+          git -C gitops push origin ${{ env.GITOPS_REPO_BRANCH }}
